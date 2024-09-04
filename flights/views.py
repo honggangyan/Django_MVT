@@ -4,7 +4,13 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 
-# Create your views here.
+#  Views are responsible for handling the logic that processes user requests
+#  and returns the appropriate responses.
+#  Views act as the bridge between the models (which handle the data) and the templates (which handle the presentation).
+#  - Handling Requests
+#  - Business logic
+#  - Types of views: Class-Based Views and Function-Based Views
+
 def index(request):
     return render(request, "flights/index.html", {"flights": Flight.objects.all()})
 
