@@ -30,7 +30,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = ["flights",
+INSTALLED_APPS = [
+    "users",
+    "flights",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

@@ -1,7 +1,7 @@
 from django.db import models
 
 
-# Models and Tables we are going to define
+# Define the Models and Tables 
 class Airport(models.Model):
     code = models.CharField(max_length=3)
     city = models.CharField(max_length=32)
