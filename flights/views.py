@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from flights.models import Flight, Passenger
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
 
 
 #  Views are responsible for handling the logic that processes user requests
@@ -16,7 +16,11 @@ def index(request):
 
 
 def flight(request, flight_id):
-    flight = Flight.objects.get(pk=flight_id)
+    try:
+        flight = Flight.objects.get(pk=flight_id)
+    except Flight.DoesNotExist:
+        raise Http404("Flight does not exist")
+    
     return render(
         request,
         "flights/flight.html",
@@ -31,6 +35,12 @@ def flight(request, flight_id):
 def book(request, flight_id):
     if request.method == "POST":
         flight = Flight.objects.get(pk=flight_id)
-        passenger = Passenger.objects.get(pk=int(request.POST["passenger"]))
-        passenger.flights.add(flight)
-        return HttpResponseRedirect(reverse("flight", args=(flight.id,)))
+        passenger_id = int(request.POST["passenger"])
+        try:
+            passenger = Passenger.objects.get(pk=passenger_id)
+            flight.passengers.add(passenger)
+            return HttpResponseRedirect(reverse("flight", args=(flight.id,)))
+        except Passenger.DoesNotExist:
+            return HttpResponseNotFound("Passenger not found")
+    else:
+        return HttpResponseRedirect(reverse("index"))
