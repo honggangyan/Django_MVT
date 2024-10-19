@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  # Database service
+  db:
+    image: postgres:13  # Uses PostgreSQL version 13
+    environment:
+      - POSTGRES_DB=postgres  # Sets the name of the default database
+      - POSTGRES_USER=postgres  # Sets the default username
+      - POSTGRES_PASSWORD=password  # Sets the password for the default user (should be changed in production)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persists database data across container restarts
+
+  # Web application service
+  web:
+    build: .  # Builds the image using the Dockerfile in the current directory
+    volumes:
+      - .:/app  # Mounts the current directory to /app in the container for live code changes
+    ports:
+      - "8000:8000"  # Maps port 8000 on the host to port 8000 in the container
+    # Consider adding a depends_on section to ensure the web service starts after the db service
+    # This would look like:
+    # depends_on:
+    #   - db
+
+# Defines named volumes that can be reused
+volumes:
+  postgres_data:  # Named volume for persisting PostgreSQL data
