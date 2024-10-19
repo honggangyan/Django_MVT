@@ -17,7 +17,6 @@ jobs:
           pip install django selenium
       - name: Run Django unit tests
         run: |
-          cd flights
           python manage.py test
       - name: Set up Chrome for Selenium
         uses: browser-actions/setup-chrome@latest
