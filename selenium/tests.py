@@ -3,6 +3,9 @@ import pathlib
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By  # Add this import
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 # Selenium: A tool for web browser automation and testing.
 # It allows programmatic interaction with web pages.
 
@@ -16,7 +19,12 @@ from selenium.webdriver.common.by import By  # Add this import
 def file_uri(file_name):
     return pathlib.Path(os.path.abspath(file_name)).as_uri()
 
-driver = webdriver.Chrome()
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
 class Webpagetest(unittest.TestCase):
     def test_title(self):
