@@ -1,5 +1,9 @@
+# Docker Compose Configuration File
+
+# Version of the Docker Compose file format
 version: "3.8"
 
+# Services define the containers that will be run
 services:
   # Database service
   db:
@@ -23,6 +27,15 @@ services:
     # depends_on:
     #   - db
 
-# Defines named volumes that can be reused
+# Volumes allow data to persist between container restarts
 volumes:
   postgres_data:  # Named volume for persisting PostgreSQL data
+
+# How Docker Compose works:
+# 1. It reads this YAML file to understand the desired state of your multi-container application.
+# 2. It creates a Docker network for the services to communicate.
+# 3. It builds or pulls the necessary images for each service.
+# 4. It starts the containers in the order specified (considering dependencies).
+# 5. It sets up volumes, environment variables, and port mappings as defined.
+# 6. It allows for easy scaling, updating, and managing of the entire application stack.
+# 7. With a single command (docker-compose up), it can start all services defined here.
